@@ -1,6 +1,7 @@
 import { SubscribeMessage, WebSocketGateway, OnGatewayInit, WsResponse,  OnGatewayConnection, OnGatewayDisconnect, WebSocketServer } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
+import { desconectar, conectar, mensaje } from './socket/socket';
 
 @WebSocketGateway()
 export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -13,16 +14,15 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
   }
 
   handleDisconnect(client: Socket) {
-    this.logger.log('Cliente desconectado');
+    desconectar(client);
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    this.logger.log(`Cliente conectado  ${client.id} `);
+    conectar(client);
   }
 
   @SubscribeMessage('message')
-  handleMessage(client: Socket, payload: string): void{
-    // return { event: 'messageToClient', data: 'hello word' };
-    this.wss.emit('mesageToClint');
+  handleMessage(client: Socket, payload: string){
+    mensaje(client, payload);    
   }
 }
