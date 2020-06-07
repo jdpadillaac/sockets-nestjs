@@ -1,4 +1,4 @@
-import { Socket } from 'socket.io';
+import { Socket, Server } from 'socket.io';
 
 
 export const desconectar = (cliente: Socket) => {
@@ -11,6 +11,9 @@ export const conectar = (cliente: Socket) => {
     
 }
 
-export const mensaje = (cliente: Socket, payload: any) => {
+export const mensaje = (cliente: Socket, payload: any, io: Server) => {
+    console.log(payload)
     console.log(`Mensaje de cliente ${cliente.id}`);
+    io.emit('newMessage', payload);
+    
 }

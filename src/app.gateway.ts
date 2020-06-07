@@ -23,6 +23,6 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
 
   @SubscribeMessage('message')
   handleMessage(client: Socket, payload: string){
-    mensaje(client, payload);    
+    mensaje(client, payload, this.wss);    
   }
 }
