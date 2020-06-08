@@ -1,7 +1,7 @@
 import { SubscribeMessage, WebSocketGateway, OnGatewayInit, WsResponse,  OnGatewayConnection, OnGatewayDisconnect, WebSocketServer } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
-import { desconectar, conectar, mensaje } from './socket/socket';
+import { desconectar, conectar, mensaje, configurarUsuario } from './socket/socket';
 
 @WebSocketGateway()
 export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -24,5 +24,10 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
   @SubscribeMessage('message')
   handleMessage(client: Socket, payload: string){
     mensaje(client, payload, this.wss);    
+  }
+
+  @SubscribeMessage('configurar-usuario')
+  public handleUserCog(client: Socket, payload: string){
+     return configurarUsuario(client, payload, this.wss);    
   }
 }
