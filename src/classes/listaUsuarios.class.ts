@@ -5,6 +5,7 @@ export class ListaUsuarios {
 
     public agregarUsuario(usuario: Usuario) {
         this.lista.push(usuario);
+        console.log(this.lista);
         return usuario;
     }
 
@@ -15,6 +16,7 @@ export class ListaUsuarios {
                 break;
             }
         }
+        console.log(this.lista);        
     }
 
     public obtenerListUsuarios(): Usuario[] {
