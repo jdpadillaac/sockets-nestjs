@@ -13,7 +13,31 @@ export class MessagesController {
     public async sendMessage(@Body() data: SendMessageDto): Promise<any> {
         try {
 
-            this.messageGtw.wss.emit('privateMessage', data)
+            const resp: any = {
+                de: data.de,
+                body: data.body
+            }
+            
+            this.messageGtw.wss.in(data.id).emit('privateMessage', resp)
+
+            console.log(data);
+            
+            return {};
+        } catch (error) {
+            
+        }
+    }
+
+    @Post("")
+    public async sendMessageToAll(@Body() data: SendMessageDto): Promise<any> {
+        try {
+
+            const resp: any = {
+                de: data.de,
+                body: data.body
+            }
+            
+            this.messageGtw.wss.emit('newMessage', resp)
 
             console.log(data);
             
